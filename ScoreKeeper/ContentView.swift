@@ -39,7 +39,8 @@ struct ContentView: View {
                     .bold()
                     .padding(.bottom)
                 
-                SettingsView(startingPoints: $startingPoints)
+                SettingsView(doesHighestScoreWin: $scoreboard.doesHighestScoreWin,startingPoints: $startingPoints)
+                    .disabled(scoreboard.state != .setup)
                 
                 Grid{
                     GridRow {
@@ -53,12 +54,22 @@ struct ContentView: View {
                     ForEach($scoreboard.players){
                         $player in
                         GridRow{
-                            TextField("Name", text: $player.name)
+                            HStack{
+                                if  scoreboard.winners.contains(player){
+                                    Image(systemName: "crown.fill")
+                                        .foregroundStyle(.yellow)
+                                }
+                                TextField("Name", text: $player.name)
+                                    .disabled(scoreboard.state != .setup)
+                            }
                             Text("\(player.score)")
+                                .opacity(scoreboard.state == .setup ? 0 : 1.0)
                             TextField("Color", text: $player.color)
                                 .padding(.horizontal, 16 )
+                                .opacity(scoreboard.state == .setup ? 0 : 1.0)
                             Stepper("\(player.score)", value: $player.score)
                                 .labelsHidden()
+                                .opacity(scoreboard.state == .setup ? 0 : 1.0)
                         }
                     }
                 }
@@ -70,26 +81,34 @@ struct ContentView: View {
                 }
                 .foregroundStyle(.white)
                 .bold()
+                .opacity(scoreboard.state == .setup ? 1.0 : 0)
                 
                 Spacer()
-                
-                switch scoreboard.state{
-                case .setup:
-                    Button("Start Game", systemImage: "play.fill") {
-                        scoreboard.state = .playing
-                        scoreboard.resetScores(to: startingPoints)
+                HStack{
+                    Spacer()
+                    switch scoreboard.state{
+                    case .setup:
+                        Button("Start Game", systemImage: "play.fill") {
+                            scoreboard.state = .playing
+                            scoreboard.resetScores(to: startingPoints)
+                        }
+                    case .playing:
+                        Button("End Game", systemImage:"stop.fill") {
+                            scoreboard.state = .gameOver
+                        }
+                    case .gameOver:
+                        Button("Reset Game", systemImage: "arrow.counterclockwise"){
+                            scoreboard.state = .setup
+                        }
+                        //                default:
+                        //                    EmptyView()
                     }
-                case .playing:
-                    Button("End Game", systemImage:"stop.fill") {
-                        scoreboard.state = .gameOver
-                    }
-                case .gameOver:
-                    Button("Reset Game", systemImage: "arrow.counterclockwise"){
-                        scoreboard.state = .setup
-                    }
-//                default:
-//                    EmptyView()
+                    Spacer()
                 }
+                .buttonStyle(.bordered)
+                .buttonBorderShape(.capsule)
+                .controlSize(.large)
+                .tint(.black)
             }
             .padding()
         }
