@@ -18,6 +18,7 @@ struct Scoreboard{
     
     var state = GameState.setup
     var doesHighestScoreWin = true
+    var totalScore = true
     
     var winners: [Player]
     {
