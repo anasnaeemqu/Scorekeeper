@@ -23,6 +23,9 @@ struct Scoreboard{
     var winners: [Player]
     {
         guard state == .gameOver else {return [ ] }
+        if let totalScore = Optional(totalScore), totalScore > 0 {
+            return players.filter{ player in player.score >= totalScore}
+        }
         
         var winningScore = 0
         if doesHighestScoreWin {
@@ -37,7 +40,7 @@ struct Scoreboard{
                 winningScore = min(player.score, winningScore)
             }
         }
-        return players.filter { player in player.score >= totalScore}
+        return players.filter { player in player.score >= winningScore}
     }
     mutating func resetScores(to newValue: Int){
         for index in 0..<players.count {
