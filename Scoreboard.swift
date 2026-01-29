@@ -18,7 +18,7 @@ struct Scoreboard{
     
     var state = GameState.setup
     var doesHighestScoreWin = true
-    var totalScore = true
+    var totalScore = 10
     
     var winners: [Player]
     {
@@ -37,7 +37,7 @@ struct Scoreboard{
                 winningScore = min(player.score, winningScore)
             }
         }
-        return players.filter { player in player.score == winningScore}
+        return players.filter { player in player.score >= totalScore}
     }
     mutating func resetScores(to newValue: Int){
         for index in 0..<players.count {

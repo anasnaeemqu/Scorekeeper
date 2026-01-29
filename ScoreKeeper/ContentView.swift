@@ -21,16 +21,27 @@ struct ContentView: View {
     
     var body: some View {
         ZStack{
+//            LinearGradient(
+//                        gradient: Gradient(colors: [
+//                            Color(red: 0.1, green: 0.8, blue: 1.0),   // light cyan top-left
+//                            Color(red: 1.0, green: 0.5, blue: 0.2),   // orange mid
+//                            Color(red: 1.0, green: 0.0, blue: 0.5),   // pink lower
+//                            Color(red: 0.6, green: 0.0, blue: 1.0)    // violet bottom
+//                        ]),
+//                        startPoint: .topLeading,
+//                        endPoint: .bottomTrailing
+//                    )
             LinearGradient(
-                        gradient: Gradient(colors: [
-                            Color(red: 0.1, green: 0.8, blue: 1.0),   // light cyan top-left
-                            Color(red: 1.0, green: 0.5, blue: 0.2),   // orange mid
-                            Color(red: 1.0, green: 0.0, blue: 0.5),   // pink lower
-                            Color(red: 0.6, green: 0.0, blue: 1.0)    // violet bottom
-                        ]),
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
+                gradient: Gradient(colors: [
+                    Color(red: 1.00, green: 0.73, blue: 0.60), // peach top-left
+                    Color(red: 1.00, green: 0.55, blue: 0.48), // coral
+                    Color(red: 0.95, green: 0.45, blue: 0.65), // pink
+                    Color(red: 0.78, green: 0.45, blue: 0.85)  // soft lavender bottom
+                ]),
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+
                     .ignoresSafeArea()
             VStack(alignment: .leading) {
                 
