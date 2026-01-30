@@ -1,10 +1,3 @@
-//
-//  Scoreboard.swift
-//  ScoreKeeper
-//
-//  Created by Meezotech Mac on 14/01/2026.
-//
-
 import Foundation
 
 struct Scoreboard{
@@ -23,7 +16,7 @@ struct Scoreboard{
     var winners: [Player]
     {
         guard state == .gameOver else {return [ ] }
-        if let totalScore = Optional(totalScore), totalScore > 0 {
+        if let totalScore = Optional(totalScore), doesHighestScoreWin && totalScore > 0 {
             return players.filter{ player in player.score >= totalScore}
         }
         
@@ -40,11 +33,21 @@ struct Scoreboard{
                 winningScore = min(player.score, winningScore)
             }
         }
-        return players.filter { player in player.score >= winningScore}
+        return players.filter { player in player.score == winningScore}
     }
     mutating func resetScores(to newValue: Int){
         for index in 0..<players.count {
             players[index].score = newValue
+        }
+    }
+    mutating func updateScore(for playerName: String, by points: Int) {
+        if let index = players.firstIndex(where: { $0.name == playerName }) {
+            players[index].score += points
+
+            // If this player reached or passed the totalScore, the game ends
+            if players[index].score >= totalScore {
+                state = .gameOver
+            }
         }
     }
 }

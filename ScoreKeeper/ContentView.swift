@@ -87,8 +87,9 @@ struct ContentView: View {
                 .padding(.vertical)
                 .fontWeight(.semibold)
                 
-                Stepper("\(scoreboard.totalScore)", value: $scoreboard.totalScore, in: 10...500)
+                Stepper("Total Score  \(scoreboard.totalScore)", value: $scoreboard.totalScore, in: 10...500)
                     .opacity(scoreboard.state == .setup ? 1.0 : 0)
+                    .fontWeight(.semibold)
                 
                 Button("Add players", systemImage: "plus") {
                     scoreboard.players.append(Player(name: "", score: 0, color: ""))
@@ -101,7 +102,7 @@ struct ContentView: View {
                 HStack{
                     Spacer()
                     switch scoreboard.state{
-                    case .setup: 
+                    case .setup:
                         Button("Start Game", systemImage: "play.fill") {
                             scoreboard.state = .playing
                             scoreboard.resetScores(to: startingPoints)
